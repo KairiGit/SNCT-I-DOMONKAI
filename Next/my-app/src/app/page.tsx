@@ -1,57 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { weightedRandom } from "../lib/weightedRandom";
-
-type Grade = 1 | 2 | 3 | 4 | 5;
-
-interface Absentee {
-  id: string;
-  memo: string;
-  timestamp: number;
-}
-
-interface AppState {
-  currentId: string;
-  remainingIds: Record<Grade, string[]>;
-  selectedCount: Record<Grade, number>;
-  weights: Record<Grade, number>;
-  lastSelectedGrade?: Grade;
-}
-
-const initialState: AppState = {
-  currentId: "",
-  remainingIds: {
-    1: Array.from(
-      { length: 25 },
-      (_, i) => `1I${String(i + 1).padStart(2, "0")}`
-    ),
-    2: Array.from(
-      { length: 30 },
-      (_, i) => `2I${String(i + 1).padStart(2, "0")}`
-    ),
-    3: Array.from(
-      { length: 28 },
-      (_, i) => `3I${String(i + 1).padStart(2, "0")}`
-    ),
-    4: Array.from(
-      { length: 20 },
-      (_, i) => `4I${String(i + 1).padStart(2, "0")}`
-    ),
-    5: Array.from(
-      { length: 22 },
-      (_, i) => `5I${String(i + 1).padStart(2, "0")}`
-    ),
-  },
-  selectedCount: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-  weights: { 1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0 },
-};
+import { initialState } from "../lib/initialData";
+import { AppState, Grade, Absentee } from "../types/app";
 
 export default function HomePage() {
   const [state, setState] = useState<AppState>(initialState);
   const [absentees, setAbsentees] = useState<Absentee[]>([]);
   const [showAbsenteeForm, setShowAbsenteeForm] = useState(false);
   const [absenteeMemo, setAbsenteeMemo] = useState("");
+
+  useEffect(() => {
+    setState(initialState);
+  }, []);
 
   const generateStudentId = () => {
     const availableGrades = (
@@ -179,9 +141,18 @@ export default function HomePage() {
           <section className="bg-white rounded-lg shadow-md p-6">
             <div className="text-center mb-6">
               <h2
-                className={`text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 transition-all duration-500 ${
-                  state.currentId ? "animate-fade-in-scale" : ""
+                className={`text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-500 ${
+                  state.currentId
+                    ? "animate-fade-in-scale bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+                    : "text-gray-400"
                 }`}
+                style={{
+                  backgroundImage: state.currentId
+                    ? "linear-gradient(to right, #2563eb, #9333ea, #db2777)"
+                    : "none",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
               >
                 {state.currentId || "まだ生成されていません"}
               </h2>
