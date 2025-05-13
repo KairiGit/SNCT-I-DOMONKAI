@@ -4,8 +4,10 @@ import React, { useState, useEffect } from "react";
 import { weightedRandom } from "../lib/weightedRandom";
 import { initialState } from "../lib/initialData";
 import { AppState, Grade, Absentee } from "../types/app";
+import { useTheme } from "./context/ThemeContext";
 
 export default function HomePage() {
+  const { theme, toggleTheme } = useTheme();
   const [state, setState] = useState<AppState>(initialState);
   const [absentees, setAbsentees] = useState<Absentee[]>([]);
   const [showAbsenteeForm, setShowAbsenteeForm] = useState(false);
@@ -131,19 +133,47 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div
+      className={`min-h-screen ${
+        theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+      }`}
+    >
       <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800">
-            2025/05/14 SNCT-I-同門会
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1
+              className={`text-2xl sm:text-3xl md:text-4xl font-bold text-center ${
+                theme === "dark" ? "text-gray-100" : "text-gray-800"
+              }`}
+            >
+              2025/05/14 SNCT-I-同門会
+            </h1>
+            <button
+              onClick={toggleTheme}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                theme === "dark" ? "bg-blue-600" : "bg-gray-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  theme === "dark" ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
 
-          <section className="bg-white rounded-lg shadow-md p-6">
+          <section
+            className={`${
+              theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white"
+            } rounded-lg shadow-md p-6 border`}
+          >
             <div className="text-center mb-6">
               <h2
                 className={`text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-500 ${
                   state.currentId
                     ? "animate-fade-in-scale bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+                    : theme === "dark"
+                    ? "text-gray-500"
                     : "text-gray-400"
                 }`}
                 style={{
@@ -170,7 +200,9 @@ export default function HomePage() {
                 className={`px-4 py-1.5 rounded-lg transition-colors text-sm font-medium shadow-sm hover:shadow-md ${
                   state.lastSelectedGrade
                     ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : theme === "dark"
+                    ? "bg-gray-700 text-gray-500"
+                    : "bg-gray-300 text-gray-500"
                 }`}
               >
                 引き直し
@@ -181,7 +213,9 @@ export default function HomePage() {
                 className={`px-4 py-1.5 rounded-lg transition-colors text-sm font-medium shadow-sm hover:shadow-md ${
                   state.lastSelectedGrade
                     ? "bg-orange-500 text-white hover:bg-orange-600"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : theme === "dark"
+                    ? "bg-gray-700 text-gray-500"
+                    : "bg-gray-300 text-gray-500"
                 }`}
               >
                 不在
@@ -196,8 +230,16 @@ export default function HomePage() {
           </section>
 
           {showAbsenteeForm && (
-            <section className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">
+            <section
+              className={`${
+                theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white"
+              } rounded-lg shadow-md p-6 border`}
+            >
+              <h2
+                className={`text-xl font-semibold mb-4 ${
+                  theme === "dark" ? "text-gray-100" : "text-gray-700"
+                }`}
+              >
                 不在者メモ
               </h2>
               <div className="space-y-4">
@@ -205,13 +247,21 @@ export default function HomePage() {
                   value={absenteeMemo}
                   onChange={(e) => setAbsenteeMemo(e.target.value)}
                   placeholder="メモを入力してください"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    theme === "dark"
+                      ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400"
+                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                  }`}
                   rows={3}
                 />
                 <div className="flex gap-3 justify-end">
                   <button
                     onClick={cancelAbsentee}
-                    className="px-4 py-1.5 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors text-sm"
+                    className={`px-4 py-1.5 text-white rounded transition-colors text-sm ${
+                      theme === "dark"
+                        ? "bg-gray-600 hover:bg-gray-700"
+                        : "bg-gray-500 hover:bg-gray-600"
+                    }`}
                   >
                     キャンセル
                   </button>
@@ -226,16 +276,34 @@ export default function HomePage() {
             </section>
           )}
 
-          <section className="bg-white rounded-lg shadow-md p-6">
+          <section
+            className={`${
+              theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white"
+            } rounded-lg shadow-md p-6 border`}
+          >
             <div className="grid grid-cols-5 gap-2">
               {([1, 2, 3, 4, 5] as Grade[]).map((g) => (
                 <div key={g} className="text-center">
-                  <div className="text-lg font-medium text-gray-700 mb-1">
+                  <div
+                    className={`text-lg font-medium mb-1 ${
+                      theme === "dark" ? "text-gray-100" : "text-gray-700"
+                    }`}
+                  >
                     {g}年
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-2">
+                  <div
+                    className={`${
+                      theme === "dark"
+                        ? "bg-gray-700 border-gray-600"
+                        : "bg-gray-50"
+                    } rounded-lg p-2 border`}
+                  >
                     <div className="mb-2">
-                      <label className="text-xs text-gray-500 block mb-1">
+                      <label
+                        className={`text-xs block mb-1 ${
+                          theme === "dark" ? "text-gray-400" : "text-gray-500"
+                        }`}
+                      >
                         重み
                       </label>
                       <input
@@ -244,19 +312,45 @@ export default function HomePage() {
                         min="0.1"
                         value={state.weights[g]}
                         onChange={(e) => updateWeight(g, e.target.value)}
-                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        className={`w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 ${
+                          theme === "dark"
+                            ? "bg-gray-600 border-gray-500 text-gray-100"
+                            : "bg-white border-gray-300 text-gray-900"
+                        }`}
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-1 text-xs">
                       <div>
-                        <span className="text-gray-500">当選</span>
-                        <div className="font-bold text-blue-600">
+                        <span
+                          className={
+                            theme === "dark" ? "text-gray-400" : "text-gray-500"
+                          }
+                        >
+                          当選
+                        </span>
+                        <div
+                          className={`font-bold ${
+                            theme === "dark" ? "text-blue-400" : "text-blue-600"
+                          }`}
+                        >
                           {state.selectedCount[g]}
                         </div>
                       </div>
                       <div>
-                        <span className="text-gray-500">残り</span>
-                        <div className="font-bold text-green-600">
+                        <span
+                          className={
+                            theme === "dark" ? "text-gray-400" : "text-gray-500"
+                          }
+                        >
+                          残り
+                        </span>
+                        <div
+                          className={`font-bold ${
+                            theme === "dark"
+                              ? "text-green-400"
+                              : "text-green-600"
+                          }`}
+                        >
                           {state.remainingIds[g].length}
                         </div>
                       </div>
@@ -268,20 +362,42 @@ export default function HomePage() {
           </section>
 
           {absentees.length > 0 && (
-            <section className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            <section
+              className={`${
+                theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white"
+              } rounded-lg shadow-md p-6 border`}
+            >
+              <h2
+                className={`text-2xl font-semibold mb-4 ${
+                  theme === "dark" ? "text-gray-100" : "text-gray-700"
+                }`}
+              >
                 不在者一覧
               </h2>
               <div className="space-y-2">
                 {absentees.map((absentee) => (
                   <div
                     key={absentee.timestamp}
-                    className="flex items-center justify-between bg-gray-50 rounded-lg p-3"
+                    className={`flex items-center justify-between rounded-lg p-3 ${
+                      theme === "dark"
+                        ? "bg-gray-700 border-gray-600"
+                        : "bg-gray-50"
+                    } border`}
                   >
-                    <div className="font-medium text-gray-900">
+                    <div
+                      className={`font-medium ${
+                        theme === "dark" ? "text-gray-100" : "text-gray-900"
+                      }`}
+                    >
                       {absentee.id}
                     </div>
-                    <div className="text-gray-600">{absentee.memo}</div>
+                    <div
+                      className={
+                        theme === "dark" ? "text-gray-300" : "text-gray-600"
+                      }
+                    >
+                      {absentee.memo}
+                    </div>
                   </div>
                 ))}
               </div>
