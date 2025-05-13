@@ -168,36 +168,52 @@ export default function HomePage() {
             } rounded-lg shadow-md p-6 border`}
           >
             <div className="text-center mb-6">
-              <h2
-                className={`text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-500 ${
-                  state.currentId
-                    ? "animate-fade-in-scale bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
-                    : theme === "dark"
-                    ? "text-gray-500"
-                    : "text-gray-400"
-                }`}
-                style={{
-                  backgroundImage: state.currentId
-                    ? "linear-gradient(to right, #2563eb, #9333ea, #db2777)"
-                    : "none",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                {state.currentId || "まだ生成されていません"}
-              </h2>
+              <div className="relative inline-block p-4">
+                <h2
+                  className={`text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-500 relative z-10 ${
+                    state.currentId
+                      ? "animate-fade-in-scale bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                      : theme === "dark"
+                      ? "text-gray-500"
+                      : "text-gray-400"
+                  }`}
+                  style={{
+                    backgroundImage: state.currentId
+                      ? "linear-gradient(to right, rgb(49, 54, 224) 0%, rgb(127, 36, 201) 50%, rgb(236, 72, 189) 100%)"
+                      : "none",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textShadow: state.currentId
+                      ? "0 0 20px rgba(29, 0, 33, 0.3)"
+                      : "none",
+                  }}
+                >
+                  {state.currentId || "まだ生成されていません"}
+                </h2>
+                {state.currentId && (
+                  <div
+                    className="absolute inset-0 rounded-lg
+                             bg-[conic-gradient(from_var(--angle)_at_50%_50%,#3b82f6,#60a5fa,#3b82f6,transparent_40%)]
+                             [--angle:0deg]
+                             animate-border-spin
+                             pointer-events-none
+                             bg-[length:200%_200%]
+                             opacity-80"
+                  />
+                )}
+              </div>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
               <button
                 onClick={generateStudentId}
-                className="px-4 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium shadow-sm hover:shadow-md"
+                className="animate-bounce rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               >
                 学籍番号を生成
               </button>
               <button
                 onClick={redrawStudentId}
                 disabled={!state.lastSelectedGrade}
-                className={`px-4 py-1.5 rounded-lg transition-colors text-sm font-medium shadow-sm hover:shadow-md ${
+                className={`px-4 py-2 rounded font-bold transition-colors ${
                   state.lastSelectedGrade
                     ? "bg-yellow-500 text-white hover:bg-yellow-600"
                     : theme === "dark"
@@ -210,7 +226,7 @@ export default function HomePage() {
               <button
                 onClick={handleAbsentee}
                 disabled={!state.lastSelectedGrade}
-                className={`px-4 py-1.5 rounded-lg transition-colors text-sm font-medium shadow-sm hover:shadow-md ${
+                className={`px-4 py-2 rounded font-bold transition-colors ${
                   state.lastSelectedGrade
                     ? "bg-orange-500 text-white hover:bg-orange-600"
                     : theme === "dark"
@@ -222,7 +238,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={resetAll}
-                className="px-4 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm font-medium shadow-sm hover:shadow-md"
+                className="px-4 py-2 bg-red-500 text-white rounded font-bold hover:bg-red-600 transition-colors"
               >
                 リセット
               </button>

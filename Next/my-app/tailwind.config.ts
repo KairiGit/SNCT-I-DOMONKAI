@@ -25,9 +25,14 @@ const config: Config = {
             transform: "scale(1)",
           },
         },
+        "border-spin": {
+          "0%": { "--angle": "0deg" },
+          "100%": { "--angle": "360deg" },
+        },
       },
       animation: {
         "fade-in-scale": "fade-in-scale 0.5s ease-out forwards",
+        "border-spin": "border-spin 4s linear infinite",
       },
     },
   },
