@@ -172,13 +172,17 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800">
             2025/05/14 SNCT-I-同門会
           </h1>
 
           <section className="bg-white rounded-lg shadow-md p-6">
             <div className="text-center mb-6">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600">
+              <h2
+                className={`text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 transition-all duration-500 ${
+                  state.currentId ? "animate-fade-in-scale" : ""
+                }`}
+              >
                 {state.currentId || "まだ生成されていません"}
               </h2>
             </div>

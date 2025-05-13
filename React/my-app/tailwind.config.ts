@@ -14,6 +14,21 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "fade-in-scale": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
+      },
+      animation: {
+        "fade-in-scale": "fade-in-scale 0.5s ease-out forwards",
+      },
     },
   },
   plugins: [],
