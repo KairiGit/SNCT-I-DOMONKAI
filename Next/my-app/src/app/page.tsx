@@ -170,25 +170,26 @@ export default function HomePage() {
             <div className="text-center mb-6">
               <div className="relative inline-block p-4">
                 <h2
-                  className={`text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-500 relative z-10 ${
+                  className={`text-7xl sm:text-8xl md:text-9xl font-bold transition-all duration-500 relative z-10 ${
                     state.currentId
                       ? "animate-fade-in-scale bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
                       : theme === "dark"
-                      ? "text-gray-500"
-                      : "text-gray-400"
+                      ? "text-gray-200"
+                      : "text-gray-700"
                   }`}
-                  style={{
-                    backgroundImage: state.currentId
-                      ? "linear-gradient(to right, rgb(49, 54, 224) 0%, rgb(127, 36, 201) 50%, rgb(236, 72, 189) 100%)"
-                      : "none",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    textShadow: state.currentId
-                      ? "0 0 20px rgba(29, 0, 33, 0.3)"
-                      : "none",
-                  }}
+                  style={
+                    state.currentId
+                      ? {
+                          backgroundImage:
+                            "linear-gradient(to right, rgb(49, 54, 224) 0%, rgb(127, 36, 201) 50%, rgb(236, 72, 189) 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          textShadow: "0 0 20px rgba(84, 0, 95, 0.3)",
+                        }
+                      : {}
+                  }
                 >
-                  {state.currentId || "まだ生成されていません"}
+                  {state.currentId || "Enjoy!"}
                 </h2>
                 {state.currentId && (
                   <div
