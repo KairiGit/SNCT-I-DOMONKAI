@@ -10,6 +10,7 @@ import StudentIdSection from "./components/StudentIdSection";
 import AbsenteeForm from "./components/AbsenteeForm";
 import GradeStatusGrid from "./components/GradeStatusGrid";
 import AbsenteeList from "./components/AbsenteeList";
+import WinnerList from "./components/WinnerList";
 
 export default function HomePage() {
   const { theme, toggleTheme } = useTheme();
@@ -17,6 +18,7 @@ export default function HomePage() {
   const [absentees, setAbsentees] = useState<Absentee[]>([]);
   const [showAbsenteeForm, setShowAbsenteeForm] = useState(false);
   const [absenteeMemo, setAbsenteeMemo] = useState("");
+  const [showWinnerList, setShowWinnerList] = useState(false);
 
   useEffect(() => {
     setState(initialState);
@@ -137,6 +139,17 @@ export default function HomePage() {
     }
   };
 
+  // 当選者一覧を計算
+  const winners = Object.entries(state.selectedCount).flatMap(
+    ([grade, count]) => {
+      const g = Number(grade) as Grade;
+      const selected = (initialState.remainingIds[g] as string[]).filter(
+        (id: string) => !state.remainingIds[g].includes(id)
+      );
+      return selected.map((id: string) => ({ grade: g, id }));
+    }
+  );
+
   return (
     <div
       className={`min-h-screen ${
@@ -145,7 +158,11 @@ export default function HomePage() {
     >
       <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-6">
-          <Header theme={theme} toggleTheme={toggleTheme} />
+          <Header
+            theme={theme}
+            toggleTheme={toggleTheme}
+            showWinnerList={() => setShowWinnerList(true)}
+          />
           <StudentIdSection
             theme={theme}
             state={state}
@@ -170,6 +187,13 @@ export default function HomePage() {
           />
           {absentees.length > 0 && (
             <AbsenteeList theme={theme} absentees={absentees} />
+          )}
+          {showWinnerList && (
+            <WinnerList
+              theme={theme}
+              winners={winners}
+              onClose={() => setShowWinnerList(false)}
+            />
           )}
         </div>
       </div>
