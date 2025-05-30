@@ -1,4 +1,6 @@
 # SNCT-I-DOMONKAI
+2025I科同門会の抽選会で使用するための抽選アプリ
+
 
 ```
 $ npx create-next-app@latest
