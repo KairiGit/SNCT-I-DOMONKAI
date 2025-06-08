@@ -33,7 +33,7 @@ const WinnerList: React.FC<WinnerListProps> = ({ theme, winners, onClose }) => (
             まだ当選者はいません
           </div>
         ) : (
-          winners.map((w, i) => (
+          winners.map((w) => (
             <div
               key={w.grade + w.id}
               className="flex justify-between py-2 px-2"

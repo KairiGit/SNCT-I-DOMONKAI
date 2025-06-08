@@ -140,15 +140,13 @@ export default function HomePage() {
   };
 
   // 当選者一覧を計算
-  const winners = Object.entries(state.selectedCount).flatMap(
-    ([grade, count]) => {
-      const g = Number(grade) as Grade;
-      const selected = (initialState.remainingIds[g] as string[]).filter(
-        (id: string) => !state.remainingIds[g].includes(id)
-      );
-      return selected.map((id: string) => ({ grade: g, id }));
-    }
-  );
+  const winners = Object.entries(state.selectedCount).flatMap(([grade]) => {
+    const g = Number(grade) as Grade;
+    const selected = (initialState.remainingIds[g] as string[]).filter(
+      (id: string) => !state.remainingIds[g].includes(id)
+    );
+    return selected.map((id: string) => ({ grade: g, id }));
+  });
 
   return (
     <div
