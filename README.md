@@ -1,6 +1,6 @@
 # SNCT-I-DOMONKAI
 2025I科同門会の抽選会で使用するための抽選アプリ
-
+[](https://snct-i-domonkai.vercel.app/)
 
 ```
 $ npx create-next-app@latest
